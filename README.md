@@ -1,66 +1,252 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# Laravel E-Commerce Application
 
-## About Laravel
+This is a Laravel-based e-commerce application using **PostgreSQL** as the database and Docker containers for easy setup. It includes features like a shopping cart, product filtering, AI-powered recommendations, and more. This guide explains how to configure, execute, and test the program.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## **Table of Contents**
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1. [Prerequisites](#prerequisites)
+2. [Configuration](#configuration)
+3. [Setting Up Docker Containers](#setting-up-docker-containers)
+4. [Running the Application](#running-the-application)
+5. [Running CI/CD Tests](#running-cicd-tests)
+6. [Troubleshooting](#troubleshooting)
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## **1. Prerequisites**
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Ensure you have the following installed on your system:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. **Docker** and **Docker Compose**:
+   - [Install Docker](https://docs.docker.com/get-docker/)
+   - [Install Docker Compose](https://docs.docker.com/compose/install/)
 
-## Laravel Sponsors
+2. **Composer**:
+   - [Install Composer](https://getcomposer.org/)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+3. **Node.js** (for frontend assets):
+   - [Install Node.js](https://nodejs.org/)
 
-### Premium Partners
+4. **PostgreSQL** (Optional):
+   - Required only if you are not using the Dockerized PostgreSQL instance.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+---
 
-## Contributing
+## **2. Configuration**
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Step 1: Clone the Repository
+Clone this repository to your local machine:
+```bash
+git clone https://github.com/your-username/ecommerce-app.git
+cd ecommerce-app
+```
 
-## Code of Conduct
+### Step 2: Environment Configuration
+Copy the `.env.example` file and configure your environment variables:
+```bash
+cp .env.example .env
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+#### Update the `.env` file:
+1. **Database Configuration** (for Dockerized PostgreSQL):
+   ```env
+   DB_CONNECTION=pgsql
+   DB_HOST=db
+   DB_PORT=5432
+   DB_DATABASE=ecommerce_php
+   DB_USERNAME=postgres
+   DB_PASSWORD=your_password
+   ```
 
-## Security Vulnerabilities
+2. **App Configuration**:
+   - Set `APP_URL` to match your local setup (e.g., `http://localhost`).
+   ```env
+   APP_URL=http://localhost
+   ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+3. **Queue and Cache**:
+   Configure cache drivers as needed (default is fine):
+   ```env
+   CACHE_DRIVER=file
+   QUEUE_CONNECTION=sync
+   ```
 
-## License
+4. **Stripe or Payment API Keys** (Optional):
+   Add keys if you’re integrating payments.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+## **3. Setting Up Docker Containers**
+
+### Step 1: Docker Compose File
+Ensure `docker-compose.yml` is properly configured. The default file includes:
+- **App** container for Laravel.
+- **Database** container for PostgreSQL.
+
+```yaml
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/var/www
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_DATABASE: ecommerce_php
+      DB_USERNAME: postgres
+      DB_PASSWORD: your_password
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: your_password
+      POSTGRES_DB: ecommerce_php
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
+```
+
+### Step 2: Build and Start Containers
+Run the following command to build and start the containers:
+```bash
+docker-compose up --build
+```
+
+This will:
+1. Build the Laravel app container.
+2. Start the PostgreSQL database container.
+
+### Step 3: Access the Containers
+1. **Laravel App**: Access the app at [http://localhost:8000](http://localhost:8000).
+2. **PostgreSQL**:
+   - Connect using a tool like pgAdmin with these credentials:
+     - Host: `localhost`
+     - Port: `5432`
+     - Database: `ecommerce_php`
+     - Username: `postgres`
+     - Password: `your_password`
+
+---
+
+## **4. Running the Application**
+
+### Step 1: Install Dependencies
+Run the following commands inside the `app` container:
+```bash
+docker exec -it ecommerce-app bash
+composer install
+npm install && npm run dev
+```
+
+### Step 2: Migrate and Seed the Database
+Run the following commands to set up the database schema and seed initial data:
+```bash
+php artisan migrate
+php artisan db:seed
+```
+
+---
+
+## **5. Running CI/CD Tests**
+
+### Step 1: Run PHPUnit Tests
+Inside the app container, execute:
+```bash
+php artisan test
+```
+
+This will run unit and feature tests defined in the `tests/` directory.
+
+### Step 2: Execute Tests via GitHub Actions
+The project includes a GitHub Actions workflow for CI/CD:
+
+#### Workflow File (`.github/workflows/ci.yml`):
+```yaml
+name: Laravel CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 8.1
+        extensions: mbstring, pdo_pgsql
+    - name: Install Dependencies
+      run: composer install
+    - name: Run Tests
+      run: php artisan test
+```
+
+### Trigger Tests:
+1. Push to the `main` branch:
+   ```bash
+   git add .
+   git commit -m "Add feature X"
+   git push origin main
+   ```
+
+2. Check GitHub Actions in your repository to ensure the CI workflow is successful.
+
+---
+
+## **6. Troubleshooting**
+
+### Common Issues:
+1. **Database Connection Error**:
+   - Ensure `docker-compose` is running.
+   - Verify `.env` matches the database credentials.
+   - Clear Laravel cache:
+     ```bash
+     php artisan config:clear
+     php artisan cache:clear
+     ```
+
+2. **Node.js Not Installed**:
+   Install Node.js and rerun `npm install && npm run dev`.
+
+3. **Docker Errors**:
+   - Restart Docker services:
+     ```bash
+     docker-compose down
+     docker-compose up --build
+     ```
+
+4. **CI/CD Fails**:
+   - Check GitHub Actions logs for specific errors.
+   - Ensure all dependencies are installed correctly.
+
+---
+
+## **Additional Notes**
+- **Local Development**: Use `APP_ENV=local` for development.
+- **Production Deployment**: Consider using a cloud service (e.g., AWS, DigitalOcean) and securing the app with SSL via Cloudflare.
+
+---
