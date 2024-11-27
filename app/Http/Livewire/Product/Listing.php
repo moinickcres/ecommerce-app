@@ -7,11 +7,14 @@ use App\Models\Product;
 
 class Listing extends Component
 {
-    public $products;
+    public $category, $products;
 
-    public function mount()
+    public function mount($category = null)
     {
-        $this->products = Product::all();
+        $this->category = $category;
+        $this->products = Product::when($category, function ($query) {
+            $query->where('category_id', $this->category);
+        })->get();
     }
 
     public function render()

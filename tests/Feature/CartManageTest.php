@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use Livewire\Livewire;
 
 class CartManageTest extends TestCase
 {
@@ -16,5 +17,14 @@ class CartManageTest extends TestCase
         $response = $this->get('/');
 
         $response->assertStatus(200);
+    }
+
+    public function test_add_product_to_cart()
+    {
+        $product = Product::factory()->create();
+
+        Livewire::test('cart.manage')
+            ->call('addToCart', $product->id)
+            ->assertSee($product->name);
     }
 }
