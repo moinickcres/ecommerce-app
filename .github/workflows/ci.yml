@@ -11,17 +11,18 @@ on:
       - feature/dockercicd
 
 jobs:
+
+  build:
+    runs-on: ubuntu-latest
+
   services:
       db:
         image: mysql:8.0
         env:
           MYSQL_ROOT_PASSWORD:
-          MYSQL_DATABASE: testing_db
+          MYSQL_DATABASE: ecommerce_php
         ports:
           - 3306:3306
-
-  build:
-    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3

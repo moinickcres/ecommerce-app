@@ -19,9 +19,3 @@ jobs:
 
     - name: Build Docker Image
       run: docker build -t ecommerce-app:latest .
-
-    - name: Push Docker Image
-      run: |
-        echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-        docker tag ecommerce-app:latest moinick/ecommerce-app:latest
-        docker push moinick/ecommerce-app:latest
