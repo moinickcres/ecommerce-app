@@ -12,7 +12,6 @@ pipeline {
         DB_PORT = '3306'
         DB_DATABASE = 'ecommerce_php'
         DB_USERNAME = 'root'
-        DB_PASSWORD = 
     }
 
     stages {
