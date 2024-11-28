@@ -19,6 +19,7 @@ Route::post('/logout', function () {
 })->name('logout');
 
 Route::get('/register', Register::class)->name('register');
+Route::post('/register', [Register::class, 'register'])->name('register');
 
 Route::get('/login', Login::class)->name('login');
 
@@ -31,5 +32,7 @@ Route::middleware(['auth'])->get('/checkout', Checkout::class)->name('checkout')
 Route::middleware(['auth'])->get('/payment', Payment::class)->name('payment');
 
 Route::middleware(['auth'])->get('/filter', Filter::class)->name('filter');
+
+Route::get('/products', Listing::class);
 
 //Route::middleware(['auth'])->get('/product/{id}', )->name('product');
