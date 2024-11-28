@@ -29,7 +29,7 @@ class Register extends Component
 
         auth()->login($user); // Automatically log the user in
         logger('logs in');
-        return redirect('/dashboard'); // Redirect to a secure page
+        return redirect('/listing'); // Redirect to a secure page
 
         //dd('Register function called!');
     }

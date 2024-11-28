@@ -1,3 +1,15 @@
+name: Docker CI
+
+on:
+  push:
+    branches:
+      - main
+      - feature/dockercicd
+  pull_request:
+    branches:
+      - main
+      - feature/dockercicd
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -6,10 +18,10 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: Build Docker Image
-      run: docker build -t your-app-name:latest .
+      run: docker build -t ecommerce-app:latest .
 
     - name: Push Docker Image
       run: |
         echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-        docker tag your-app-name:latest your-dockerhub-username/your-app-name:latest
-        docker push your-dockerhub-username/your-app-name:latest
+        docker tag ecommerce-app:latest moinick/ecommerce-app:latest
+        docker push moinick/ecommerce-app:latest

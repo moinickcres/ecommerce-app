@@ -17,7 +17,7 @@ class Login extends Component
         ]);
 
         if (Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
-            return redirect('/dashboard');
+            return redirect('/listing');
         } else {
             session()->flash('error', 'Invalid credentials.');
         }

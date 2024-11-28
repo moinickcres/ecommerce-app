@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Order;
+namespace App\Livewire\Order;
 
 use Livewire\Component;
 use Stripe\Stripe;

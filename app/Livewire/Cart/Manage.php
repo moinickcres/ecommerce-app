@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Cart;
+namespace App\Livewire\Cart;
 
 use Livewire\Component;
 use Illuminate\Support\Facades\Session;

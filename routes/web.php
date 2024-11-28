@@ -3,7 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
-use App\Http\Livewire\Product\Listing;
+use App\Livewire\Product\Listing;
+use App\Livewire\Cart\Manage;
+use App\Livewire\Product\Filter;
+use App\Livewire\Order\Checkout;
+use App\Livewire\Order\Payment;
 
 Route::get('/', function () {
     return view('welcome');
@@ -11,31 +15,21 @@ Route::get('/', function () {
 
 Route::post('/logout', function () {
     Auth::logout();
-    return redirect('/');
+    return redirect('/login');
 })->name('logout');
 
 Route::get('/register', Register::class)->name('register');
 
 Route::get('/login', Login::class)->name('login');
 
-Route::middleware(['auth'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::middleware(['auth'])->get('/manage', Manage::class)->name('manage');
 
-Route::get('/listing', Listing::class)->name('listing');
+Route::middleware(['auth'])->get('/listing', Listing::class)->name('listing');
 
-Route::post('/test-register', function () {
-    $name = 'Test User';
-    $email = 'test@example.com';
-    $password = Hash::make('password123');
+Route::middleware(['auth'])->get('/checkout', Checkout::class)->name('checkout');
 
-    $user = App\Models\User::create([
-        'name' => $name,
-        'email' => $email,
-        'password' => $password,
-    ]);
+Route::middleware(['auth'])->get('/payment', Payment::class)->name('payment');
 
-    auth()->login($user);
+Route::middleware(['auth'])->get('/filter', Filter::class)->name('filter');
 
-    return 'User registered and logged in successfully.';
-});
+//Route::middleware(['auth'])->get('/product/{id}', )->name('product');
