@@ -1,0 +1,19 @@
+name: Prometheus
+
+on:
+  push:
+    branches:
+      - main
+      - feature/dockercicd
+
+jobs:
+  prometheus:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Build and Run Docker Image
+      run: |
+        docker build -t ecommerce:latest .
+        docker run -d -p 9090:9090 ecommerce:latest

@@ -19,6 +19,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        //Livewire::setLayout('default'); // Use a basic default layout
     }
 }
