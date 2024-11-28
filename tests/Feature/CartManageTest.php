@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Livewire\Livewire;
+use App\Models\Product;
 
 class CartManageTest extends TestCase
 {

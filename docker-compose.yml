@@ -39,8 +39,7 @@ services:
       DB_DATABASE: ecommerce_php
       DB_USERNAME: mysql
     depends_on:
-      - db:
-        condition: service_healthy
+      - db
 
 
   db:

@@ -6,13 +6,6 @@ on:
       - main
       - feature/dockercicd
 
-global:
-  scrape_interval: 15s
-scrape_configs:
-  - job_name: 'laravel_app'
-    static_configs:
-      - targets: ['localhost:9090']
-
 jobs:
   prometheus:
     runs-on: ubuntu-latest
