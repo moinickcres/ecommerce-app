@@ -20,13 +20,13 @@ class AuthTest extends TestCase
 
     public function test_user_can_login()
     {
-        $user = User::factory()->create([
+        /*$user = User::factory()->create([
             'password' => bcrypt('password123'),
-        ]);
+        ]);*/
 
         $response = $this->post('/login', [
-            'email' => $user->email,
-            'password' => 'password123',
+            'email' => 'a@gmail.com',
+            'password' => '1234',
         ]);
 
         //$response->assertRedirect('/dashboard'); // Assuming successful login redirects to /dashboard
