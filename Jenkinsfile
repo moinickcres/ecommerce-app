@@ -42,10 +42,10 @@ pipeline {
         }
 
         stage('Install Node.js and NPM') {
+            tools {
+                nodejs 'NodeJS 14'
+            }
             steps {
-                tools {
-                    nodejs 'NodeJS 14'
-                }
                 bat '''
                 npm install
                 npm run build
