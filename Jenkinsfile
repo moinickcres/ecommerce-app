@@ -44,15 +44,16 @@ pipeline {
             steps {
                 bat '''
                 php artisan tinker --env=testing --execute="DB::connection()->getPdo();"
+                php artisan tinker --env=testing --execute="DB::table('users')->get();"
                 '''
             }
         }
 
-        stage('Run Migrations') {
+        /*stage('Run Migrations') {
             steps {
-                bat 'php artisan migrate --env=testing'
+                bat 'php artisan migrate --env=testing --pretend' // --pretend is simulating changes without applying them
             }
-        }
+        }*/
 
         stage('Start Laravel Server') {
             steps {
