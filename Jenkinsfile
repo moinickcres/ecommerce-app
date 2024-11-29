@@ -30,11 +30,26 @@ pipeline {
             }
         }
 
+        stage('Verify Database Connection') {
+            steps {
+                bat '''
+                php artisan tinker --execute="DB::connection()->getPdo();"
+                '''
+            }
+        }
+
         stage('Run Migrations') {
             steps {
                 bat 'php artisan migrate --env=testing'
             }
         }
+
+        stage('Start Laravel Server') {
+            steps {
+                bat 'start /B php artisan serve --host=127.0.0.1 --port=8000'
+            }
+        }
+
 
         stage('Run Tests') {
             steps {
