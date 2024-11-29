@@ -21,11 +21,22 @@ pipeline {
             }
         }
 
-        stage('Set Up PHP') {
+        stage('Prepare Environment') {
             steps {
+                writeFile file: '.env.testing', text: '''
+                APP_ENV=testing
+                APP_KEY=base64:YOUR_APP_KEY_HERE
+
+                DB_CONNECTION=mysql
+                DB_HOST=127.0.0.1
+                DB_PORT=3306
+                DB_DATABASE=testing_db
+                DB_USERNAME=root
+                DB_PASSWORD=your-password
+                '''
                 bat '''
                 composer install
-                php artisan key:generate
+                php artisan key:generate --env=testing
                 '''
             }
         }
@@ -53,7 +64,7 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                bat 'php artisan test'
+                bat 'php artisan test --env=testing'
             }
         }
 
