@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         // Docker Hub credentials
-        DOCKER_HUB_CREDS = credentials('docker-hub-credentials')
+        //DOCKER_HUB_CREDS = credentials('docker-hub-credentials')
         DOCKER_IMAGE_NAME = 'moinick/ecommerce-app'
         DOCKER_TAG = 'latest'
 
@@ -42,11 +42,11 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
+        /*stage('Build Docker Image') {
             steps {
                 bat 'docker build -t %DOCKER_IMAGE_NAME%:%DOCKER_TAG% .'
             }
-        }
+        }*/
 
         /*stage('Push Docker Image') {
             steps {
