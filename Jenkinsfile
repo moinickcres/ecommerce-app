@@ -35,7 +35,6 @@ pipeline {
                 '''
                 bat '''
                 composer install
-                php artisan key:generate --env=testing
                 '''
             }
         }
