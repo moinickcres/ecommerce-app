@@ -17,7 +17,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/moinickcres/ecommerce-app.git'
+                git branch: 'feature/dockercicd', url: 'https://github.com/moinickcres/ecommerce-app.git'
             }
         }
 
