@@ -7,11 +7,11 @@ pipeline {
         DOCKER_IMAGE_NAME = 'moinick/ecommerce-app'
         DOCKER_TAG = 'latest'
 
-        // Environment Variables
+        /* Environment Variables
         DB_HOST = '127.0.0.1'
         DB_PORT = '3306'
         DB_DATABASE = 'ecommerce_php'
-        DB_USERNAME = 'root'
+        DB_USERNAME = 'root'*/
     }
 
     stages {
@@ -25,14 +25,13 @@ pipeline {
             steps {
                 writeFile file: '.env.testing', text: '''
                 APP_ENV=testing
-                APP_KEY=base64:YOUR_APP_KEY_HERE
+                APP_KEY=base64:3ehjP84XOuio4SXW2ni2AJm96Oq12N9V+3IuyZ3bd7s=
 
                 DB_CONNECTION=mysql
                 DB_HOST=127.0.0.1
                 DB_PORT=3306
-                DB_DATABASE=testing_db
+                DB_DATABASE=ecommerce
                 DB_USERNAME=root
-                DB_PASSWORD=your-password
                 '''
                 bat '''
                 composer install
@@ -44,7 +43,7 @@ pipeline {
         stage('Verify Database Connection') {
             steps {
                 bat '''
-                php artisan tinker --execute="DB::connection()->getPdo();"
+                php artisan tinker --env=testing --execute="DB::connection()->getPdo();"
                 '''
             }
         }
