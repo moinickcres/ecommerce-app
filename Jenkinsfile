@@ -14,6 +14,10 @@ pipeline {
         DB_USERNAME = 'root'*/
     }
 
+    tools {
+        nodejs 'NodeJS 14'
+    }
+
     stages {
         stage('Checkout Code') {
             steps {
@@ -35,6 +39,15 @@ pipeline {
                 '''
                 bat '''
                 composer install
+                '''
+            }
+        }
+
+        stage('Install Node.js and NPM') {
+            steps {
+                bat '''
+                npm install
+                npm run production
                 '''
             }
         }
