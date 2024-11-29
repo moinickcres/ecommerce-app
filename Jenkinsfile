@@ -49,6 +49,7 @@ pipeline {
                 bat '''
                 npm install
                 npm run build
+                npm run production
                 '''
             }
         }
