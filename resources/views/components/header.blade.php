@@ -8,6 +8,9 @@
             <a href="/" class="hover:text-gray-300">Home</a>
             <a href="/register" class="hover:text-gray-300">Register</a>
             <a href="/login" class="hover:text-gray-300">Login</a>
+            @auth
+                @livewire('cart-summary') <!-- Include Cart Summary -->
+            @endauth
             <form method="POST" action="{{ route('logout') }}" class="inline-block">
                 @csrf
                 <button type="submit" class="hover:text-gray-300">Logout</button>

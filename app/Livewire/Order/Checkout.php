@@ -32,7 +32,7 @@ class Checkout extends Component
         ]);
 
         Session::forget('cart');
-        return redirect('/thank-you');
+        return redirect('/login');
     }
 
     public function render()

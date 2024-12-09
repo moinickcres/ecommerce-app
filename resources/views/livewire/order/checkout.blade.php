@@ -21,9 +21,3 @@
         <button type="submit">Place Order</button>
     </form>
 </div>
-
-
-<form method="POST" action="{{ route('logout') }}">
-    @csrf
-    <button type="submit">Logout</button>
-</form>
