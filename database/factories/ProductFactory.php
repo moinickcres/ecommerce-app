@@ -14,7 +14,7 @@ class ProductFactory extends Factory
         return [
             'name' => $this->faker->word,
             'price' => $this->faker->randomFloat(2, 10, 100),
-            'category_id' => \App\Models\Category::factory(),
+            'category_id' => Category::factory(), // Ensure a category is created
         ];
     }
 }

@@ -5,9 +5,9 @@
 
         <!-- Navigation Links -->
         <nav class="flex space-x-4">
-            <a href="/" class="hover:text-gray-300">Home</a>
-            <a href="/register" class="hover:text-gray-300">Register</a>
-            <a href="/login" class="hover:text-gray-300">Login</a>
+            <a href="/listing" class="hover:text-gray-300">Listing</a>
+            <a href="/manage" class="hover:text-gray-300">Manage</a>
+            <a href="/checkout" class="hover:text-gray-300">Checkout</a>
             @auth
                 @livewire('cart-summary') <!-- Include Cart Summary -->
             @endauth

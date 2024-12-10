@@ -13,9 +13,10 @@ class Listing extends Component
     {
         // Load products from the database
         $this->category = $category;
-        $this->products = Product::when($category, function ($query) {
-            $query->where('category_id', $this->category);
-        })->get();
+        $this->products = Product::with('category') // Eager load the category
+            ->when($category, function ($query) {
+                $query->where('category_id', $category);
+            })->get();
         //$this->products = \App\Models\Product::all();
     }
 

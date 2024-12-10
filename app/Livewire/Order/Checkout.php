@@ -17,22 +17,25 @@ class Checkout extends Component
 
     public function placeOrder()
     {
-        $this->validate([
+        /*$this->validate([
             'name' => 'required',
             'email' => 'required|email',
             'address' => 'required',
-        ]);
+        ]);*/
 
-        Order::create([
+        $total = array_sum(array_map(fn($item) => $item['price'] * $item['quantity'], $this->cart));
+
+        session()->put('total', $total);
+
+        /*Order::create([
             'name' => $this->name,
             'email' => $this->email,
             'address' => $this->address,
             'items' => json_encode($this->cart),
-            'total' => array_sum(array_map(fn($item) => $item['price'] * $item['quantity'], $this->cart)),
-        ]);
-
-        Session::forget('cart');
-        return redirect('/login');
+            'total' => $total,
+        ]);*/
+        
+        return redirect('/payment');
     }
 
     public function render()

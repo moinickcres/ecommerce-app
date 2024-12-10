@@ -3,16 +3,21 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Order extends Model
 {
+    use HasFactory;
+
     // Define the fillable attributes for mass assignment
     protected $fillable = [
-        'name',   // Add this attribute as it's required for your use case
-        'product_id', // Example additional fields
-        'user_id',
-        'quantity',
+        'user_id',   
         'total_price',
-        'status',
+        'status'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }
