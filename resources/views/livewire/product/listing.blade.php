@@ -9,8 +9,8 @@
         <div class="bg-white shadow-lg rounded-lg p-6 max-w-5xl mx-auto">
             <ul class="divide-y divide-gray-200">
                 @foreach ($products as $product)
-                    <li class="flex items-center justify-between py-4">
-                        <!-- Product Info -->
+                <li class="py-4 border-b border-gray-300 hover:bg-gray-100">
+                    <a href="{{ route('product-view', ['id' => $product->id]) }}" class="flex items-center justify-between w-full h-full">
                         <div class="flex items-center space-x-4">
                             <div class="flex-shrink-0">
                                 <div class="bg-indigo-500 text-white w-12 h-12 flex items-center justify-center rounded-full">
@@ -18,25 +18,15 @@
                                 </div>
                             </div>
                             <div>
-                                <a href="/product/{{ $product->id }}"
-                                   class="text-lg font-medium text-gray-900 hover:text-indigo-600">
+                                <p class="text-lg font-medium text-gray-900 hover:text-indigo-600">
                                     {{ $product->name }}
-                                </a>
+                                </p>
                                 <p class="text-sm text-gray-500">Category: {{ $product->category->name ?? 'Uncategorized' }}</p>
                             </div>
                         </div>
-
-                        <!-- Product Price and Button -->
-                        <div class="flex items-center space-x-4">
-                            <span class="text-lg font-bold text-indigo-700">${{ $product->price }}</span>
-                            <button
-                                wire:click="addToCart({{ $product->id }})"
-                                class="px-4 py-2 bg-indigo-600 text-white text-sm font-semibold rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                            >
-                                Add to Cart
-                            </button>
-                        </div>
-                    </li>
+                        <span class="text-lg font-bold text-indigo-700">${{ $product->price }}</span>
+                    </a>
+                </li>
                 @endforeach
             </ul>
         </div>

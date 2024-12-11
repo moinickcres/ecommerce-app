@@ -45,4 +45,9 @@ class Listing extends Component
         // Emit an event for real-time cart updates
         $this->dispatch('cartUpdated');
     }
+
+    public function viewProduct($productId)
+    {
+        return redirect()->route('product.view', ['id' => $productId]);
+    }
 }

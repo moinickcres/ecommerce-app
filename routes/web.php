@@ -9,6 +9,7 @@ use App\Livewire\Cart\Manage;
 use App\Livewire\Product\Filter;
 use App\Livewire\Order\Checkout;
 use App\Livewire\Order\Payment;
+use App\Livewire\Product\ProductView;
 use App\Check;
 use Stripe\Stripe;
 use Stripe\PaymentIntent;
@@ -34,13 +35,17 @@ Route::/*middleware(['auth'])->*/get('/listing', Listing::class)->name('listing'
 
 Route::/*middleware(['auth'])->*/get('/checkout', Checkout::class)->name('checkout');
 
-Route::/*middleware(['auth'])->*/get('/payment', payment::class)->name('payment');
+Route::/*middleware(['auth'])->*/get('/payment', Payment::class)->name('payment');
 
 Route::/*middleware(['auth'])->*/post('/payment', [Payment::class, 'processPayment'])->name('payment.process');
 
 Route::/*middleware(['auth'])->*/get('/filter', Filter::class)->name('filter');
 
+Route::get('/product/{id}', ProductView::class)->name('product-view');
+
 Route::get('/products', Listing::class);
+
+Route::get('/search-results/{query}', \App\Livewire\Product\SearchResults::class)->name('search-results');
 
 Route::get('/check', function () {
     return view('check', ['check' => session()->get('cart', [])]);
